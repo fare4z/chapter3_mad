@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -14,10 +15,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     TextView DispNama,tvCounter;
-    Button btnCount, btnReload;
+    Button btnCount, btnReload, btnLogout;
     Integer Counter;
 
-    SharedPreferences sp;
+    SharedPreferences sp,sp_login;
 
 
 
@@ -35,17 +36,17 @@ public class MainActivity extends AppCompatActivity {
         tvCounter = findViewById(R.id.tvCounter);
         btnCount = findViewById(R.id.btnCount);
         btnReload = findViewById(R.id.btnReload);
+        btnLogout = findViewById(R.id.btnLogout);
         Counter = 0;
 
         // Assign Shared Preference
         sp = getSharedPreferences(PREFS_NAME,MODE_PRIVATE);
+        sp_login = getSharedPreferences("PrefLogin",MODE_PRIVATE);
 
         Bundle extras = getIntent().getExtras();
         String strNama = extras.getString("intentNama");
 
         DispNama.setText(strNama);
-
-
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
                 tvCounter.setText("" + s1);
             }
         });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sp_login.edit();
+                editor.remove("key_username");
+                editor.commit();
+
+                Intent mainIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(mainIntent);
+
+            }
+        });
+
+
 
 
     }
