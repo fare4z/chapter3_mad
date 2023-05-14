@@ -26,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         SQLiteDatabase mDatabase = openOrCreateDatabase("chapter33",MODE_PRIVATE,null);
+        mDatabase.execSQL("CREATE TABLE IF NOT EXISTS LoginTable(Username VARCHAR,Fullname VARCHAR, Password VARCHAR);");
 
 
         etName = findViewById(R.id.etName);
